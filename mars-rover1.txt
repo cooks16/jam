@@ -1,0 +1,459 @@
+GOALS:
+		ACHIEVE rocks_delivered; 
+FACTS:
+FACT position 0 0; 
+FACT baseLocation 0 0; 
+FACT playArea 7 6;
+FACT direction 1;
+FACT rock_1 2 2 0;
+FACT rock_2 7 5 1;
+FACT rock_3 2 3 0;
+FACT rock_4 4 1 1;
+FACT rock_5 3 0 0;
+FACT waterFound 0;	
+
+Plan: {
+NAME:
+		"Find water"
+GOAL:
+		ACHIEVE rocks_delivered;
+BODY:
+		RETRIEVE position $x $y;
+		RETRIEVE playArea $b $c;
+		RETRIEVE direction $d;
+		WHEN : TEST(== $x 0)
+		{	
+			WHEN : TEST(== $y 0)
+			{
+				EXECUTE println "Currently at base   ";
+			};		
+		};
+		RETRIEVE waterFound $a;
+		WHILE : TEST(!= $a 2)
+		{
+			WHEN : TEST(== $d 1)
+			{
+				PERFORM east;
+			};
+			WHEN : TEST(== $d 2)
+			{				
+				PERFORM north;
+			};
+			WHEN : TEST(== $d 3)
+			{
+				PERFORM west;
+			};
+			WHEN : TEST(== $d 5)
+			{
+				PERFORM east1;
+			};
+			WHEN : TEST(== $d 4)
+			{			
+				PERFORM north1;
+			};
+			WHEN : TEST(== $d 7)
+			{
+				PERFORM west1;
+			};
+			WHEN : TEST(== $d 11)
+			{
+				PERFORM west2;
+			};
+			WHEN : TEST(== $d 6)
+			{			
+				PERFORM north2;
+			};
+			WHEN : TEST(== $d 8)
+			{			
+				PERFORM north3;
+			};
+			WHEN : TEST(== $d 10)
+			{			
+				PERFORM north4;
+			};
+			WHEN : TEST(== $d 12)
+			{			
+				PERFORM north5;
+			};
+			WHEN : TEST(== $d 9)
+			{
+				PERFORM east2;
+			};
+			WHEN : TEST(== $d 13)
+			{
+				PERFORM east3;
+			};
+		};
+}
+
+Plan: {
+NAME:
+		"Go East"
+GOAL: 
+		ACHIEVE east;
+BODY:
+		RETRIEVE position $x $y;
+		RETRIEVE direction $d;
+		RETRIEVE playArea $e $f;
+		
+		WHILE : TEST(!= $x $e)
+		{
+			ASSIGN $x (+ $x 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+		ASSIGN $d 2;
+		ASSERT direction $d;
+		PERFORM check_rock;
+}
+
+		
+Plan: {
+NAME:
+		"Go West"
+GOAL: 
+		ACHIEVE west;
+BODY:
+		RETRIEVE position $x $y;
+		RETRIEVE direction $d;
+		
+		WHEN : TEST(== $x 0)
+		{
+			ASSIGN $d 4;
+			ASSERT direction $d;
+			RETRIEVE direction $g;
+			PERFORM check_rock;
+		};
+		ASSIGN $x (- $x 1);
+		ASSERT position $x $y;
+		PERFORM check_rock;
+}
+
+Plan: {
+NAME:
+		"Go North"
+GOAL: 
+		ACHIEVE north;
+BODY:
+		RETRIEVE position $x $y;
+		//EXECUTE println $x;
+		RETRIEVE direction $d;
+		RETRIEVE playArea $e $f;
+		//EXECUTE println $d;
+		
+		WHEN : TEST(== $x 7)
+		{
+			ASSIGN $d 3;
+			//EXECUTE println $d;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+		WHEN : TEST(== $x 0)
+		{
+			ASSIGN $d 3;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+}		
+Plan: {
+NAME:
+		"Go East"
+GOAL: 
+		ACHIEVE east1;
+BODY:
+		RETRIEVE position $x $y;
+		RETRIEVE direction $d;
+		RETRIEVE playArea $e $f;
+		
+		WHILE : TEST(!= $x $e)
+		{
+			ASSIGN $x (+ $x 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+		ASSIGN $d 6;
+		ASSERT direction $d;
+		PERFORM check_rock;
+}
+
+		
+Plan: {
+NAME:
+		"Go West"
+GOAL: 
+		ACHIEVE west1;
+BODY:
+		RETRIEVE position $x $y;
+		RETRIEVE direction $d;
+		
+		WHEN : TEST(== $x 0)
+		{
+			ASSIGN $d 8;
+			ASSERT direction $d;
+			RETRIEVE direction $g;
+			PERFORM check_rock;
+		};
+		ASSIGN $x (- $x 1);
+		ASSERT position $x $y;
+		PERFORM check_rock;
+}
+
+Plan: {
+NAME:
+		"Go West"
+GOAL: 
+		ACHIEVE west2;
+BODY:
+		RETRIEVE position $x $y;
+		RETRIEVE direction $d;
+		
+		WHEN : TEST(== $x 0)
+		{
+			ASSIGN $d 12;
+			ASSERT direction $d;
+			RETRIEVE direction $g;
+			PERFORM check_rock;
+		};
+		ASSIGN $x (- $x 1);
+		ASSERT position $x $y;
+		PERFORM check_rock;
+}
+
+Plan: {
+NAME:
+		"Go North"
+GOAL: 
+		ACHIEVE north1;
+BODY:
+		RETRIEVE position $x $y;
+		//EXECUTE println $x;
+		RETRIEVE direction $d;
+		RETRIEVE playArea $e $f;
+		//EXECUTE println $d;
+		
+		WHEN : TEST(== $x 7)
+		{
+			ASSIGN $d 5;
+			//EXECUTE println $d;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+
+			PERFORM check_rock;
+		};
+		WHEN : TEST(== $x 0)
+		{
+			ASSIGN $d 5;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+}	
+Plan: {
+NAME:
+		"Go North"
+GOAL: 
+		ACHIEVE north2;
+BODY:
+		RETRIEVE position $x $y;
+		//EXECUTE println $x;
+		RETRIEVE direction $d;
+		RETRIEVE playArea $e $f;
+		//EXECUTE println $d;
+		
+		WHEN : TEST(== $x 7)
+		{
+			ASSIGN $d 7;
+			//EXECUTE println $d;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+		WHEN : TEST(== $x 0)
+		{
+			ASSIGN $d 7;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+}
+
+Plan: {
+NAME:
+		"Go East"
+GOAL: 
+		ACHIEVE east2;
+BODY:
+		RETRIEVE position $x $y;
+		RETRIEVE direction $d;
+		RETRIEVE playArea $e $f;
+		
+		WHILE : TEST(!= $x $e)
+		{
+			ASSIGN $x (+ $x 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+		ASSIGN $d 10;
+		ASSERT direction $d;
+		PERFORM check_rock;
+}
+
+
+
+Plan: {
+NAME:
+		"Go North"
+GOAL: 
+		ACHIEVE north3;
+BODY:
+		RETRIEVE position $x $y;
+		//EXECUTE println $x;
+		RETRIEVE direction $d;
+		RETRIEVE playArea $e $f;
+		//EXECUTE println $d;
+		
+		WHEN : TEST(== $x 7)
+		{
+			ASSIGN $d 9;
+			//EXECUTE println $d;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+		WHEN : TEST(== $x 0)
+		{
+			ASSIGN $d 9;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+}
+
+Plan: {
+NAME:
+		"Go North"
+GOAL: 
+		ACHIEVE north4;
+BODY:
+		RETRIEVE position $x $y;
+		//EXECUTE println $x;
+		RETRIEVE direction $d;
+		RETRIEVE playArea $e $f;
+		//EXECUTE println $d;
+		
+		WHEN : TEST(== $x 7)
+		{
+			ASSIGN $d 11;
+			//EXECUTE println $d;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+		WHEN : TEST(== $x 0)
+		{
+			ASSIGN $d 11;
+			ASSERT direction $d;
+			ASSIGN $y (+ $y 1);
+			ASSERT position $x $y;
+			PERFORM check_rock;
+		};
+}
+
+		
+Plan: {
+NAME:
+		"Check rocks"
+GOAL:
+		ACHIEVE check_rock;
+BODY:
+		RETRIEVE rock_1 $aa $ab $ac;
+		RETRIEVE rock_2 $ba $bb $bc;
+		RETRIEVE rock_3 $ca $cb $cc;		
+		RETRIEVE rock_4 $da $db $dc;
+		RETRIEVE rock_5 $ea $eb $ec;
+		RETRIEVE position $x $y;
+		EXECUTE println "Current Location " $x "," $y;	
+		
+		OR
+		{
+			TEST(== $aa $x);
+			TEST(== $ab $y);
+			EXECUTE println "Rock 1 Found";
+			TEST(== $ac 1);
+			ASSERT rock_1 -1 -1 -1;
+			EXECUTE println "Rock 1 Contains Water";
+			PERFORM retrieve_rock;
+		}
+		{
+			TEST(== $ba $x);
+			TEST(== $bb $y);
+			EXECUTE println "Rock 2 Found";
+			TEST(== $bc 1);
+			ASSERT rock_2 -1 -1 -1;
+			EXECUTE println "Rock 2 Contains Water";
+			PERFORM retrieve_rock;
+		}
+		{
+			TEST(== $ca $x);
+			TEST(== $cb $y);
+			EXECUTE println "Rock 3 Found";
+			TEST(== $cc 1);
+			ASSERT rock_3 -1 -1 -1;
+			EXECUTE println "Rock 3 Contains Water";
+			PERFORM retrieve_rock;
+		}
+		{
+			TEST(== $da $x);
+			TEST(== $db $y);
+			EXECUTE println "Rock 4 Found";
+			TEST(== $dc 1);
+			ASSERT rock_4 -1 -1 -1;
+			EXECUTE println "Rock 4 Contains Water";
+			PERFORM retrieve_rock;
+		}
+		{
+			TEST(== $ea $x);
+			TEST(== $eb $y);
+			EXECUTE println "Rock 5 Found";
+			TEST(== $ec 1);
+			ASSERT rock_5 -1 -1 -1;			
+			EXECUTE println "Rock 5 Contains Water";
+			PERFORM retrieve_rock;
+		};
+}
+
+Plan: {
+NAME:
+		"Deliever rock"
+GOAL:
+		ACHIEVE retrieve_rock;
+BODY:		
+		RETRIEVE position $x $y;
+		RETRIEVE waterFound $z;
+		EXECUTE println "Current Location " $x "," $y;
+		WHILE : TEST(> $x 0)
+		{
+			ASSIGN $x (- $x 1);
+			EXECUTE println "Current Location " $x "," $y;
+		};
+		WHILE : TEST(> $y 0)
+		{
+			ASSIGN $y (- $y 1);
+			EXECUTE println "Current Location " $x "," $y;
+		};
+		EXECUTE println "Rock returned to base ";
+		ASSIGN $z 1;
+		ASSERT waterFound $z;
+		ASSERT position $x $y;
+}
